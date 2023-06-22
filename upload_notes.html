@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
+	<!-- Bootstrap theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<title>Upload Notes Anonmasily</title>
+    
+    <style>
+        body {
+            background-color: #ff69b4;
+        }
+        h2
+        {
+            text-align: center;
+            color:rgb(19, 65, 65);
+            font-family:cursive;
+            font-size: 40px;
+            font-weight: bold;
+            text-decoration:underline;
+            font
+          }
+        
+        .container {
+            margin-top: 100px;
+        }
+        
+        .form-group label {
+            color: #555;
+        }
+        
+        .form-control:focus {
+            border-color: #d20069;
+            box-shadow: 0 0 0 0.2rem rgba(255,105,180,.25);
+        }
+        
+        .btn-primary {
+            color:#09ff00;
+            background-color: #0f0710;
+            border-color: #1322c7;
+        }
+        
+        .btn-primary:hover {
+            background-color: #fa0de6;
+            border-color: #000000;
+        }
+    </style>
+
+</head>
+<body>
+   
+<h2>Upload Your Notes</h2>
+<!-- file upload start -->
+<div class="container">
+    <form name="file_upload_form" id="file_upload_form" method="post" action="#" enctype="multipart/form-data" style="display: none;">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <div class="form-group">
+                    <label for="file">Select File</label>
+                    <input type="file" name="file" id="file" class="form-control">
+                </div>
+                <button type="button" id="upload" name="upload" class="btn btn-primary">Upload</button>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- file upload end-->
+
+<center>Developed by <a href="https://www.github.com/gec-ian">gecian</a></center>
+</body>
+	<script type="module">
+	  // Import the functions you need from the SDKs you need
+	  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+	  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js";
+	  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,  sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js";
+      import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-storage.js";
+      import { getDatabase, ref as dbRef, push as dbPush } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-database.js";
+	  // TODO: Add SDKs for Firebase products that you want to use
+	  // https://firebase.google.com/docs/web/setup#available-libraries
+
+	  // Your web app's Firebase configuration
+	  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+	  const firebaseConfig = {
+    apiKey: "AIzaSyA13Oh5JtU6zuIb68PIJoTFMlM26rcrPDk",
+    authDomain: "signup-login-fbce5.firebaseapp.com",
+    databaseURL: "https://signup-login-fbce5-default-rtdb.firebaseio.com",
+    projectId: "signup-login-fbce5",
+    storageBucket: "signup-login-fbce5.appspot.com",
+    messagingSenderId: "780103788898",
+    appId: "1:780103788898:web:0146d0bbbda7d4b133a43b",
+    measurementId: "G-12ZGE8BQY0"
+  };
+
+	  // Initialize Firebase
+	  const app = initializeApp(firebaseConfig);
+	  const analytics = getAnalytics(app);
+	  const auth = getAuth();
+      const storage = getStorage(app);
+      const database = getDatabase(app);
+      
+	  console.log(app);
+
+	 
+
+
+  // File upload code
+document.getElementById('file_upload_form').style.display = 'block'; // Show file upload form
+  document.getElementById("upload").addEventListener("click", function() {
+    const fileInput = document.getElementById("file");
+    const file = fileInput.files[0];
+    const storageRef = ref(storage, "files/" + file.name);
+
+    uploadBytes(storageRef, file)
+      .then(() => {
+         alert("File uploaded successfully!Thanks for uploading your Notes.");
+        fileInput.value = ""; // Clear the file input field
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("An error occurred while uploading the file.");
+      });
+  });
+  
+	</script>
+</html>
